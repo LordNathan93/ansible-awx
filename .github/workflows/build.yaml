@@ -73,7 +73,7 @@ jobs:
       - name: Push Docker Image to ACR
         working-directory: ./execution-environment/context
         run: |
-          docker push ${{ vars.ACR_NAME }}.azurecr.io/$imageName:latest
+          docker push ${{ vars.ACR_NAME }}.azurecr.io/$imageName
 
 ################################
 
