@@ -1,0 +1,30 @@
+- hosts: localhost
+  tasks:
+
+  - name: Check installed collections
+    ansible.builtin.shell:
+      cmd: /usr/bin/python3 -m ansible galaxy collection list
+    register: check_collections
+
+  - name: Installed collections
+    ansible.builtin.debug:
+      msg: "{{ check_collections.stdout_lines }}"
+
+  - name: Check installed modules
+    ansible.builtin.shell:
+      cmd: /usr/bin/python3 -m pip list
+    register: check_modules
+
+  - name: Installed modules
+    ansible.builtin.debug:
+      msg: "{{ check_modules.stdout_lines }}"
+
+  - name: Test - radkit modules
+    ansible.builtin.script:
+      cmd: ./RadkitModules.py 
+      executable: /usr/bin/python3
+    register: test_radkit
+
+  - name: Test results - radkit modules 
+    ansible.builtin.debug:
+      msg: "{{ test_radkit.stdout_lines }}"

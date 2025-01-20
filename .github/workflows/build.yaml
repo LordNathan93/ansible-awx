@@ -1,0 +1,80 @@
+name: Build and push to ACR
+
+on:
+  workflow_dispatch
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  acrName: ${{ vars.ACR_NAME }}
+  imageName: "radkit-ee"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: ansible-prod-uks
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: GitVersion Setup
+        uses: gittools/actions/gitversion/setup@v0
+        with:
+          versionSpec: '5.x'
+
+      - name: GitVersion
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0
+      
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install ansible-builder
+        run: pip install ansible-builder
+      
+      - name: Build image
+        working-directory: ./execution-environment
+        run: ansible-builder build -v 3 --no-cache --tag $imageName --container-runtime docker
+
+      - name: Test Image
+        working-directory: ./execution-environment/tests
+        run: docker run -i --rm -v "$PWD":/usr/src/tests -w /usr/src/tests $imageName ansible-playbook tests.yml
+
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+            client-id: ${{ secrets.AZURE_CLIENT_ID }}
+            tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+            subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Push context to container registry
+        working-directory: ./execution-environment/context
+        run: |
+          oras login $acrName.azurecr.io \
+              --username "00000000-0000-0000-0000-000000000000" \
+              --password $(az acr login --name $acrName --expose-token --output tsv --query accessToken)
+          
+          oras push "$acrName.azurecr.io/$imageName/context:${{ steps.gitversion.outputs.semVer }}" \
+              "." 
+
+      - name: Create and run ACR build task
+        run: |
+          taskName=$(echo "$imageName-${{ steps.gitversion.outputs.semVer }}" | tr '.' '-')
+
+          az acr task create \
+            --registry $acrName \
+            --name $taskName \
+            --image $imageName:${{ steps.gitversion.outputs.semVer }}.{{.Run.ID}} \
+            --image $imageName:${{ steps.gitversion.outputs.semVer }} \
+            --context oci://$acrName.azurecr.io/$imageName/context:${{ steps.gitversion.outputs.semVer }} \
+            --file Dockerfile \
+            --commit-trigger-enabled false
+          
+          az acr task run --registry $acrName --name $taskName --no-wait
+        

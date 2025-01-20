@@ -1,0 +1,44 @@
+---
+version: 3
+images:
+  base_image:
+    name: 'rockylinux:9'
+dependencies:
+    ansible_core:
+      package_pip: ansible-core
+    ansible_runner:
+      package_pip: ansible-runner
+    python_interpreter:
+      package_system: "python39" 
+      python_path: "/usr/bin/python3.9"
+    galaxy: |
+      collections:
+      - source: /build/src/ansible-cisco-radkit-0.6.1.tar.gz
+        type: file
+      - name: ansible.netcommon
+      - name: cisco.aci
+      - name: cisco.asa
+      - name: cisco.dnac
+      - name: cisco.intersight
+      - name: cisco.ios
+      - name: cisco.iosxr
+      - name: cisco.ise
+      - name: cisco.meraki
+      - name: cisco.mso
+      - name: cisco.nso
+      - name: cisco.nxos
+    python: |
+      pproxy
+      pyats
+      genie
+      requests
+      azure-communication-email
+additional_build_files:
+  - dest: src
+    src: src
+additional_build_steps:
+  prepend_final: |
+    COPY _build/src /build/src
+    RUN $PYCMD -m pip install --upgrade pip
+    RUN $PYCMD -m pip install --no-cache-dir /build/src/*.whl
+    RUN rm -rf /build
