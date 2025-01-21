@@ -68,12 +68,6 @@ jobs:
       - name: Tag Docker Image
         run: docker tag $imageName ${{ vars.ACR_NAME }}.azurecr.io/$imageName:${{ steps.gitversion.outputs.semVer }}
 
-      - name: Verify Docker Image
-        run: docker images
-
-      - name: Image to push
-        run: echo ${{ vars.ACR_NAME }}.azurecr.io/$imageName:${{ steps.gitversion.outputs.semVer }}
-
       - name: Log in to Azure Container Registry (Admin User)
         run: |
           echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ vars.ACR_NAME }}.azurecr.io \
