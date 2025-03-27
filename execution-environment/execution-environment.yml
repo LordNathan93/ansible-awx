@@ -13,7 +13,7 @@ dependencies:
       python_path: "/usr/bin/python3.9"
     galaxy: |
       collections:
-      - source: /build/src/cisco-radkit-1.7.62.tar.gz
+      - source: /build/src/cisco-radkit-1.8.0.tar.gz
         type: file
       - name: ansible.netcommon
       - name: cisco.aci
