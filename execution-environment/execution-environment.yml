@@ -27,14 +27,14 @@ dependencies:
       - name: cisco.mso
       - name: cisco.nso
       - name: cisco.nxos
-      - name: cisco-radkit-client
-      - name: cisco-radkit-common
     python: |
       pproxy
       pyats
       genie
       requests
       azure-communication-email
+      cisco-radkit-client
+      cisco-radkit-common
 additional_build_files:
   - dest: src
     src: src
