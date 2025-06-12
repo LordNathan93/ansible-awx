@@ -33,7 +33,7 @@ dependencies:
       genie
       requests
       azure-communication-email
-      cisco_radkit_client
+      cisco-radkit-client
       cisco-radkit-service
       cisco-radkit-genie
       cisco-radkit-common
@@ -44,5 +44,5 @@ additional_build_steps:
   prepend_final: |
     COPY _build/src /build/src
     RUN $PYCMD -m pip install --upgrade pip
-    RUN $PYCMD -m pip install --no-deps cisco_radkit_client cisco-radkit-service cisco-radkit-genie cisco-radkit-common    
+    RUN $PYCMD -m pip install --no-deps cisco-radkit-client cisco-radkit-service cisco-radkit-genie cisco-radkit-common
     RUN rm -rf /build
