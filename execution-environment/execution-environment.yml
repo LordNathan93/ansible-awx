@@ -33,10 +33,6 @@ dependencies:
       genie
       requests
       azure-communication-email
-      cisco-radkit-client
-      cisco-radkit-service
-      cisco-radkit-genie
-      cisco-radkit-common
 additional_build_files:
   - dest: src
     src: src
