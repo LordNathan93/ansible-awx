@@ -33,8 +33,6 @@ dependencies:
       genie
       requests
       azure-communication-email
-      cisco-radkit-client
-      cisco-radkit-common
 additional_build_files:
   - dest: src
     src: src
@@ -42,4 +40,5 @@ additional_build_steps:
   prepend_final: |
     COPY _build/src /build/src
     RUN $PYCMD -m pip install --upgrade pip
+    RUN $PYCMD -m pip install --no-cache-dir /build/src/*.whl
     RUN rm -rf /build
