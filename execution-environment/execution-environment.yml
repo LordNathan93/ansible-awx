@@ -35,5 +35,6 @@ additional_build_steps:
   prepend_builder: |
     RUN $PYCMD -m pip install --upgrade pip
   prepend_final: |
+    RUN $PYCMD -m pip install --upgrade pip
     COPY _build/src /build/src
     RUN rm -rf /build
