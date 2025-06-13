@@ -40,7 +40,8 @@ additional_build_files:
   - dest: src
     src: src
 additional_build_steps:
+  prepend: |
+    RUN $PYCMD -m pip install --upgrade pip
   prepend_final: |
     COPY _build/src /build/src
-    RUN $PYCMD -m pip install --upgrade pip
     RUN rm -rf /build
