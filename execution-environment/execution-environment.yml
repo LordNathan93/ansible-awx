@@ -16,17 +16,8 @@ dependencies:
       - source: /build/src/cisco-radkit-1.8.0.tar.gz
         type: file
       - name: ansible.netcommon
-      - name: cisco.aci
-      - name: cisco.asa
-      - name: cisco.dnac
-      - name: cisco.intersight
       - name: cisco.ios
-      - name: cisco.iosxr
-      - name: cisco.ise
       - name: cisco.meraki
-      - name: cisco.mso
-      - name: cisco.nso
-      - name: cisco.nxos
     python: |
       pproxy
       pyats
