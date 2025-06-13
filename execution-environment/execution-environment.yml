@@ -27,6 +27,7 @@ dependencies:
       cisco-radkit-client
       cisco-radkit-service
       cisco-radkit-common
+      cisco-radkit-genie
 additional_build_files:
   - dest: src
     src: src
