@@ -9,7 +9,7 @@ permissions:
 
 env:
   acrName: ${{ vars.ACR_NAME }}
-  imageName: "radkit-ee:1.8.5_sql"
+  imageName: "radkit-ee:1.8.5_pysql"
 
 jobs:
   build:

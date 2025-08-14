@@ -29,6 +29,8 @@ dependencies:
       cisco-radkit-service
       cisco-radkit-common
       cisco-radkit-genie
+      pymssql
+      
 additional_build_files:
   - dest: src
     src: src
