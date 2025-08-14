@@ -17,7 +17,7 @@ dependencies:
       - name: cisco.ios
       - name: cisco.meraki
       - name: cisco.radkit
-      - name: community.mssql
+      - name: community.general
 
     python: |
       pproxy
