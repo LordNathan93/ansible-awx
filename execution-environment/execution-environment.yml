@@ -18,6 +18,7 @@ dependencies:
       - name: cisco.meraki
       - name: cisco.radkit
       - name: community.general
+      - name: azure.azcollection
 
     python: |
       pproxy
@@ -30,6 +31,7 @@ dependencies:
       cisco-radkit-common
       cisco-radkit-genie
       pymssql
+      azure-cosmos
       
 additional_build_files:
   - dest: src
